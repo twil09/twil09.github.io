@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[twil09] — Systems Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@1&family=Barlow+Condensed:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  /* ============================================
+     THEME — edit only these values to retheme
+     ============================================ */
+  --bg:          #1A1836;   /* page background        */
+  --text:        #E0B4B2;   /* primary text + borders */
+  --surface:     #622347;   /* stack zero banner bg   */
+  --surface-alt: #42164B;   /* footer background      */
+  --accent:      #46DF81;   /* live dot colour        */
+  /* ============================================ */
+
+  /* Aliases used throughout — do not edit these */
+  --ink:   var(--bg);
+  --cream: var(--text);
+  --cream2: var(--surface-alt);
+
+  --mono:'IBM Plex Mono',monospace;
+  --display:'Bebas Neue',sans-serif;
+  --serif:'Instrument Serif',serif;
+  --body:'Barlow Condensed',sans-serif;
+}
+body{background:var(--bg);color:var(--text);font-family:var(--body);overflow-x:hidden;scroll-behavior:smooth;}
+ 
+nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2.5rem;border-bottom:1px solid rgba(240,231,213,0.08);position:sticky;top:0;z-index:100;background:var(--ink);}
+.nav-id{font-family:var(--mono);font-size:0.72rem;font-weight:500;}
+.nav-id .br{opacity:0.25;}
+.nav-links{display:flex;gap:2.5rem;}
+.nav-links a{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.1em;text-decoration:none;color:var(--cream);opacity:0.4;text-transform:uppercase;transition:opacity 0.2s;}
+.nav-links a:hover{opacity:1;}
+.avail{display:flex;align-items:center;gap:0.5rem;font-family:var(--mono);font-size:0.6rem;opacity:0.5;}
+.avail-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+ 
+.hero{padding:5rem 2.5rem 4rem;border-bottom:1px solid rgba(240,231,213,0.08);}
+.hero-label{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;opacity:0.35;margin-bottom:2rem;}
+.hero-h1{font-family:var(--display);font-size:clamp(4rem,10vw,8.5rem);line-height:0.9;letter-spacing:-0.01em;margin-bottom:0.25rem;}
+.hero-h1 em{font-family:var(--serif);font-style:italic;font-size:0.85em;opacity:0.55;font-weight:400;}
+.hero-sub{font-family:var(--mono);font-size:0.72rem;line-height:1.85;opacity:0.45;max-width:520px;margin:2rem 0 2.5rem;}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:3rem;}
+.btn{font-family:var(--mono);font-size:0.65rem;letter-spacing:0.08em;padding:0.6rem 1.25rem;text-decoration:none;transition:all 0.2s;text-transform:uppercase;}
+.btn-ghost{border:1px solid rgba(240,231,213,0.2);color:var(--cream);opacity:0.6;}
+.btn-ghost:hover{opacity:1;border-color:rgba(240,231,213,0.5);}
+.btn-ghost:active{transform:scale(0.96);opacity:0.8;}
+.hero-tools{display:flex;gap:0.5rem;flex-wrap:wrap;}
+.tool-tag{font-family:var(--mono);font-size:0.6rem;padding:0.3rem 0.7rem;border:1px solid rgba(240,231,213,0.1);color:var(--cream);opacity:0.35;letter-spacing:0.05em;}
+ 
+.marquee-wrap{padding:0.75rem 0;overflow:hidden;white-space:nowrap;border-bottom:1px solid rgba(240,231,213,0.08);border-top:1px solid rgba(240,231,213,0.08);}
+.marquee-inner{display:inline-block;animation:scroll 24s linear infinite;}
+.marquee-inner span{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;margin-right:2.5rem;opacity:0.3;}
+.marquee-inner span.sep{opacity:0.15;}
+@keyframes scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+ 
+.section{padding:3.5rem 2.5rem;border-bottom:1px solid rgba(240,231,213,0.08);}
+.sec-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:2.5rem;}
+.sec-kicker{font-family:var(--mono);font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;opacity:0.3;margin-bottom:0.4rem;}
+.sec-title{font-family:var(--display);font-size:clamp(2rem,4vw,3.2rem);line-height:1;letter-spacing:-0.01em;}
+.sec-count{font-family:var(--mono);font-size:0.6rem;opacity:0.25;letter-spacing:0.08em;}
+ 
+.projects-grid{display:flex;flex-direction:column;}
+.proj-row{display:grid;grid-template-columns:auto 1fr auto;align-items:start;gap:2rem;padding:1.75rem 0;border-bottom:1px solid rgba(240,231,213,0.07);}
+.proj-row:last-child{border-bottom:none;}
+.proj-num{font-family:var(--mono);font-size:0.58rem;opacity:0.2;padding-top:0.2rem;}
+.proj-status{font-family:var(--mono);font-size:0.55rem;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.5rem;display:flex;align-items:center;gap:0.4rem;}
+.sdot{width:5px;height:5px;border-radius:50%;}
+.sdot-live{background:var(--accent);}
+.sdot-dev{background:var(--cream);opacity:0.4;}
+.proj-name{font-family:var(--display);font-size:clamp(1.8rem,4vw,3rem);line-height:0.95;letter-spacing:-0.01em;margin-bottom:0.6rem;}
+.proj-desc{font-family:var(--mono);font-size:0.67rem;opacity:0.4;line-height:1.75;max-width:480px;margin-bottom:1rem;}
+.proj-tags{display:flex;gap:0.4rem;flex-wrap:wrap;}
+.ptag{font-family:var(--mono);font-size:0.57rem;padding:0.2rem 0.6rem;border:1px solid rgba(240,231,213,0.1);opacity:0.45;letter-spacing:0.04em;}
+.proj-arrow{font-family:var(--mono);font-size:0.7rem;opacity:0.2;padding-top:0.2rem;transition:opacity 0.2s;}
+.proj-row:hover .proj-arrow{opacity:0.7;}
+ 
+.about-layout{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;}
+.about-headline{font-family:var(--display);font-size:clamp(1.8rem,3.5vw,2.8rem);line-height:1.05;letter-spacing:-0.01em;margin-bottom:1.5rem;}
+.about-headline em{font-family:var(--serif);font-style:italic;font-weight:400;opacity:0.55;}
+.about-text p{font-family:var(--mono);font-size:0.68rem;line-height:1.9;opacity:0.45;margin-bottom:0.85rem;}
+.about-text strong{opacity:0.9;color:var(--cream);}
+.data-block{margin-bottom:2rem;}
+.data-label{font-family:var(--mono);font-size:0.55rem;letter-spacing:0.12em;text-transform:uppercase;opacity:0.25;margin-bottom:0.75rem;padding-bottom:0.5rem;border-bottom:1px solid rgba(240,231,213,0.08);}
+.data-item{font-family:var(--mono);font-size:0.67rem;opacity:0.5;padding:0.4rem 0;border-bottom:1px solid rgba(240,231,213,0.05);display:flex;justify-content:space-between;}
+.data-item:last-child{border-bottom:none;}
+.data-item span:last-child{opacity:1;color:var(--cream);}
+ 
+.sz-banner{background:var(--surface);color:var(--text);padding:2.5rem;display:grid;grid-template-columns:1fr auto;align-items:end;gap:2rem;}
+.sz-kicker{font-family:var(--mono);font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;opacity:0.4;margin-bottom:0.75rem;}
+.sz-title{font-family:var(--display);font-size:clamp(3.5rem,8vw,7rem);line-height:0.88;color:var(--text);}
+.sz-desc{font-family:var(--mono);font-size:0.67rem;opacity:0.5;line-height:1.8;max-width:400px;margin-top:1rem;}
+.sz-num{font-family:var(--display);font-size:clamp(4rem,9vw,8rem);opacity:0.15;color:var(--text);line-height:0.85;}
+.builds-list{background:rgba(240,231,213,0.02);}
+.build-row{display:grid;grid-template-columns:2.5rem 1fr auto auto;align-items:center;gap:1rem;padding:0.8rem 2.5rem;border-bottom:1px solid rgba(240,231,213,0.05);transition:background 0.15s;}
+.build-row:hover{background:rgba(240,231,213,0.03);}
+.build-row:last-child{border-bottom:none;}
+.b-num{font-family:var(--mono);font-size:0.55rem;opacity:0.2;}
+.b-name{font-family:var(--body);font-size:0.95rem;font-weight:600;opacity:0.75;}
+.b-lang{font-family:var(--mono);font-size:0.55rem;opacity:0.25;}
+.b-badge{font-family:var(--mono);font-size:0.52rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.18rem 0.55rem;border:1px solid rgba(240,231,213,0.1);color:rgba(240,231,213,0.25);}
+ 
+.contact-layout{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;}
+.contact-headline{font-family:var(--display);font-size:clamp(2rem,4vw,3.5rem);line-height:1;letter-spacing:-0.01em;margin-bottom:1rem;}
+.contact-headline em{font-family:var(--serif);font-style:italic;font-weight:400;opacity:0.5;}
+.contact-sub{font-family:var(--mono);font-size:0.67rem;opacity:0.4;line-height:1.85;margin-bottom:2rem;}
+.contact-link{display:flex;align-items:center;justify-content:space-between;padding:0.85rem 0;border-bottom:1px solid rgba(240,231,213,0.07);text-decoration:none;color:var(--cream);transition:opacity 0.2s;}
+.contact-link:first-child{border-top:1px solid rgba(240,231,213,0.07);}
+.contact-link:hover{opacity:0.7;}
+.cl-label{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;opacity:0.35;}
+.cl-val{font-family:var(--body);font-size:1rem;font-weight:600;}
+.cl-arrow{font-family:var(--mono);font-size:0.65rem;opacity:0.2;}
+ 
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(240,231,213,0.06);}
+.stat-cell{background:var(--ink);padding:1.25rem;}
+.stat-cell .num{font-family:var(--display);font-size:2.5rem;line-height:1;letter-spacing:-0.02em;}
+.stat-cell .lbl{font-family:var(--mono);font-size:0.58rem;opacity:0.3;margin-top:0.3rem;letter-spacing:0.08em;text-transform:uppercase;}
+ 
+footer{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 2.5rem;border-top:1px solid rgba(240,231,213,0.07);background:var(--surface-alt);}
+footer span{font-family:var(--mono);font-size:0.58rem;opacity:0.25;letter-spacing:0.06em;}
+
+/* Scroll flash highlight animation */
+@keyframes sectionFlash {
+  0%   { background: rgba(240,231,213,0.0); }
+  20%  { background: rgba(240,231,213,0.05); }
+  100% { background: rgba(240,231,213,0.0); }
+}
+.section-flash {
+  animation: sectionFlash 0.8s ease forwards;
+}
+</style>
+</head>
+<body>
+ 
+<nav>
+  <div class="nav-id"><span class="br">[</span>twil09<span class="br">]</span></div>
+  <div class="nav-links">
+    <a href="#projects">projects</a>
+    <a href="#about">about</a>
+    <a href="#stack-zero">stack_zero</a>
+    <a href="#contact">contact</a>
+  </div>
+  <div class="avail"><span class="avail-dot"></span>building in public</div>
+</nav>
+ 
+<div class="hero">
+  <div class="hero-label">twil09 · college student · developer · 2026</div>
+  <div class="hero-h1">Systems Builder.<br><em>Stack Zero.</em></div>
+  <div class="hero-sub">I am learning to buuild computer systems from scratch — all of it documented publicly. No magic. Just learning and code.</div>
+  <div class="hero-btns">
+    <a href="#stack-zero" class="btn btn-ghost scroll-btn">View Stack Zero ↗</a>
+    <a href="#projects" class="btn btn-ghost scroll-btn">Projects ↗</a>
+    <a href="#contact" class="btn btn-ghost scroll-btn">Contact ↗</a>
+  </div>
+  <div class="hero-tools">
+    <span class="tool-tag">Python</span>
+    <span class="tool-tag">Linux</span>
+    <span class="tool-tag">C</span>
+    <span class="tool-tag">Rust</span>
+    <span class="tool-tag">Assembly</span>
+    <span class="tool-tag">Go</span>
+    <span class="tool-tag">Cybersecurity</span>
+  </div>
+</div>
+ 
+<div class="marquee-wrap">
+  <div class="marquee-inner">
+    <span>shell</span><span class="sep"> · </span><span>os</span><span class="sep"> · </span><span>compiler</span><span class="sep"> · </span><span>database</span><span class="sep"> · </span><span>browser</span><span class="sep"> · </span><span>hypervisor</span><span class="sep"> · </span><span>file system</span><span class="sep"> · </span><span>virtual machine</span><span class="sep"> · </span><span>network protocol</span><span class="sep"> · </span><span>memory allocator</span><span class="sep"> · </span><span>scheduler</span><span class="sep"> · </span><span>encryption</span><span class="sep"> · </span><span>blockchain</span><span class="sep"> · </span><span>shell</span><span class="sep"> · </span><span>os</span><span class="sep"> · </span><span>compiler</span><span class="sep"> · </span><span>database</span><span class="sep"> · </span><span>browser</span><span class="sep"> · </span><span>hypervisor</span><span class="sep"> · </span><span>file system</span><span class="sep"> · </span><span>virtual machine</span><span class="sep"> · </span><span class="sep"> · </span><span>network protocol</span><span class="sep"> · </span><span>memory allocator</span><span class="sep"> · </span><span>scheduler</span><span class="sep"> · </span><span>encryption</span><span class="sep"> · </span><span>blockchain</span><span class="sep"> · </span>
+  </div>
+</div>
+ 
+<div id="projects" class="section">
+  <div class="sec-header">
+    <div><div class="sec-kicker">Selected work</div><div class="sec-title">Projects</div></div>
+    <div class="sec-count">03 projects</div>
+  </div>
+  <div class="projects-grid">
+    <div class="proj-row">
+      <div class="proj-num">01</div>
+      <div class="proj-body">
+        <div class="proj-status"><span class="sdot sdot-live"></span><span style="opacity:0.5;font-size:0.55rem;">Active</span></div>
+        <div class="proj-name">Ty</div>
+        <div class="proj-desc">Fully local, self-hosted Discord AI assistant. No cloud, no fees. Runs on-device with local LLM inference, DuckDuckGo search, and weather context injection.</div>
+        <div class="proj-tags"><span class="ptag">Python</span><span class="ptag">Discord.py</span><span class="ptag">GPT4All</span><span class="ptag">Ollama</span><span class="ptag">Local LLM</span></div>
+      </div>
+      <div class="proj-arrow">↗</div>
+    </div>
+    <div class="proj-row">
+      <div class="proj-num">02</div>
+      <div class="proj-body">
+        <div class="proj-status"><span class="sdot sdot-live"></span><span style="opacity:0.5;font-size:0.55rem;">Active</span></div>
+        <div class="proj-name">Stack Zero</div>
+        <div class="proj-desc">25 fundamental computer systems built from scratch and documented publicly. Shell to hypervisor — every layer, every abstraction.</div>
+        <div class="proj-tags"><span class="ptag">Python</span><span class="ptag">C</span><span class="ptag">Rust</span><span class="ptag">Assembly</span><span class="ptag">Go</span></div>
+      </div>
+      <div class="proj-arrow">↗</div>
+    </div>
+    <div class="proj-row">
+      <div class="proj-num">03</div>
+      <div class="proj-body">
+        <div class="proj-status"><span class="sdot sdot-dev"></span><span style="opacity:0.5;font-size:0.55rem;">In progress</span></div>
+        <div class="proj-name">twil09.com</div>
+        <div class="proj-desc">This portfolio — deployed via GitHub Pages with a custom domain. Documents the Stack Zero journey and all active projects.</div>
+        <div class="proj-tags"><span class="ptag">HTML</span><span class="ptag">CSS</span><span class="ptag">JavaScript</span><span class="ptag">GitHub Pages</span></div>
+      </div>
+      <div class="proj-arrow">↗</div>
+    </div>
+  </div>
+</div>
+ 
+<div id="about" class="section">
+  <div class="sec-header">
+    <div><div class="sec-kicker">Background</div><div class="sec-title">About</div></div>
+    <div class="sec-count">twil09</div>
+  </div>
+  <div class="about-layout">
+    <div class="about-text">
+      <div class="about-headline">Learner College Student.<br><em>Building from zero.</em></div>
+      <p>Documenting the process entirely of creating various computer systems from scratch. No starting point or understanding of how things work.</p>
+      <p>Stack Zero is the public record of that journey. <strong>25 systems.</strong> Starting from a shell, ending with a hypervisor. Every step shipped and documented.</p>
+      <p>Interests span <strong>cybersecurity, digital forensics, systems programming, networking and artificial intelligence</strong> and self-hosted infrastructure. Everything runs locally where possible.</p>
+    </div>
+    <div>
+      <div class="data-block">
+        <div class="data-label">Current focus</div>
+        <div class="data-item"><span>Status</span><span>Development of the series starting</span></div>
+        <div class="data-item"><span>Series</span><span>Stack Zero</span></div>
+        <div class="data-item"><span>Primary lang</span><span>Python</span></div>
+        <div class="data-item"><span>Expanding into</span><span>C → Rust → Assembly</span></div>
+      </div>
+      <div class="data-block">
+        <div class="data-label">Interests</div>
+        <div class="data-item"><span>Cybersecurity</span><span>↗</span></div>
+        <div class="data-item"><span>Digital Forensics</span><span>↗</span></div>
+        <div class="data-item"><span>Networking</span><span>↗</span></div>
+        <div class="data-item"><span>AI Systems</span><span>↗</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+<div id="stack-zero">
+  <div class="sz-banner">
+    <div>
+      <div class="sz-kicker">Series / 001</div>
+      <div class="sz-title">STACK<br>ZERO</div>
+      <div class="sz-desc">25 different computer projects built from scratch. Every project documented and open to see all on my GitHub!</div>
+    </div>
+    <div class="sz-num">25</div>
+  </div>
+  <div class="builds-list">
+    <div class="build-row"><span class="b-num">01</span><span class="b-name">Shell</span><span class="b-lang">Python</span><span class="b-badge">Upcoming</span></div>
+    <div class="build-row"><span class="b-num">02</span><span class="b-name">Text Editor</span><span class="b-lang">Python</span><span class="b-badge">Upcoming</span></div>
+    <div class="build-row"><span class="b-num">03</span><span class="b-name">IDE</span><span class="b-lang">Python</span><span class="b-badge">Upcoming</span></div>
+    <div class="build-row"><span class="b-num">04</span><span class="b-name">Web Server</span><span class="b-lang">Python</span><span class="b-badge">Upcoming</span></div>
+    <div class="build-row"><span class="b-num">05</span><span class="b-name">Database</span><span class="b-lang">Python</span><span class="b-badge">Upcoming</span></div>
+    <div class="build-row"><span class="b-num">06</span><span class="b-name">File System</span><span class="b-lang">Python → C</span><span class="b-badge">Upcoming</span></div>
+    <div class="build-row"><span class="b-num">07</span><span class="b-name">Package Manager</span><span class="b-lang">Python</span><span class="b-badge">Upcoming</span></div>
+    <div class="build-row"><span class="b-num">08</span><span class="b-name">Window Manager</span><span class="b-lang">Python / C</span><span class="b-badge">Upcoming</span></div>
+    <div class="build-row"><span class="b-num">09</span><span class="b-name">GUI Toolkit</span><span class="b-lang">Python</span><span class="b-badge">Upcoming</span></div>
+    <div class="build-row"><span class="b-num">10</span><span class="b-name">Game Engine</span><span class="b-lang">Python / C++</span><span class="b-badge">Upcoming</span></div>
+    <div class="build-row"><span class="b-num">11</span><span class="b-name">Operating System</span><span class="b-lang">C / Assembly</span><span class="b-badge">Upcoming</span></div>
+    <div class="build-row"><span class="b-num">12</span><span class="b-name">Virtual Machine</span><span class="b-lang">Python → C</span><span class="b-badge">Upcoming</span></div>
+    <div class="build-row"><span class="b-num">13</span><span class="b-name">CPU Emulator</span><span class="b-lang">C</span><span class="b-badge">Upcoming</span></div>
+    <div class="build-row"><span class="b-num">14</span><span class="b-name">Compiler</span><span class="b-lang">Python → C</span><span class="b-badge">Upcoming</span></div>
+    <div class="build-row"><span class="b-num">15</span><span class="b-name">Programming Language</span><span class="b-lang">Python</span><span class="b-badge">Upcoming</span></div>
+    <div class="build-row"><span class="b-num">16</span><span class="b-name">Container Runtime</span><span class="b-lang">Rust / C</span><span class="b-badge">Upcoming</span></div>
+    <div class="build-row"><span class="b-num">17</span><span class="b-name">Version Control</span><span class="b-lang">Python</span><span class="b-badge">Upcoming</span></div>
+    <div class="build-row"><span class="b-num">18</span><span class="b-name">Browser</span><span class="b-lang">Python / JS</span><span class="b-badge">Upcoming</span></div>
+    <div class="build-row"><span class="b-num">19</span><span class="b-name">Blockchain</span><span class="b-lang">Python</span><span class="b-badge">Upcoming</span></div>
+    <div class="build-row"><span class="b-num">20</span><span class="b-name">Encryption Algorithm</span><span class="b-lang">Python</span><span class="b-badge">Upcoming</span></div>
+    <div class="build-row"><span class="b-num">21</span><span class="b-name">Network Protocol</span><span class="b-lang">Go / Python</span><span class="b-badge">Upcoming</span></div>
+    <div class="build-row"><span class="b-num">22</span><span class="b-name">OS Kernel (Assembly)</span><span class="b-lang">Assembly</span><span class="b-badge">Upcoming</span></div>
+    <div class="build-row"><span class="b-num">23</span><span class="b-name">Scheduler</span><span class="b-lang">C</span><span class="b-badge">Upcoming</span></div>
+    <div class="build-row"><span class="b-num">24</span><span class="b-name">Memory Allocator</span><span class="b-lang">C / Rust</span><span class="b-badge">Upcoming</span></div>
+    <div class="build-row"><span class="b-num">25</span><span class="b-name">Hypervisor</span><span class="b-lang">C / Assembly</span><span class="b-badge">Upcoming</span></div>
+  </div>
+</div>
+ 
+<div id="contact" class="section">
+  <div class="sec-header">
+    <div><div class="sec-kicker">Get in touch</div><div class="sec-title">Contact</div></div>
+  </div>
+  <div class="contact-layout">
+    <div>
+      <div class="contact-headline">Let's connect.<br><em>Find me online.</em></div>
+      <div class="contact-sub">Feel free to follow along on my journey of learning.</div>
+      <a class="contact-link" href="https://github.com/twil09" target="_blank">
+        <span class="cl-label">GitHub</span><span class="cl-val">twil09</span><span class="cl-arrow">↗</span>
+      </a>
+      <a class="contact-link" href="https://www.youtube.com/channel/UCTl1zieMm91c-szp4uj-kBA" target="_blank">
+        <span class="cl-label">YouTube</span><span class="cl-val">Stack Zero</span><span class="cl-arrow">↗</span>
+      </a>
+      <a class="contact-link" href="https://www.tiktok.com/@bytwil09" target="_blank">
+        <span class="cl-label">TikTok</span><span class="cl-val">@bytwil09</span><span class="cl-arrow">↗</span>
+      </a>
+      <a class="contact-link" href="https://www.instagram.com/bytwil09" target="_blank">
+        <span class="cl-label">Instagram</span><span class="cl-val">@bytwil09</span><span class="cl-arrow">↗</span>
+      </a>
+    </div>
+    <div>
+      <div class="data-label" style="margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:1px solid rgba(240,231,213,0.08);">Quick stats</div>
+      <div class="stats-grid">
+        <div class="stat-cell"><div class="num">25</div><div class="lbl">Builds planned</div></div>
+        <div class="stat-cell"><div class="num">00</div><div class="lbl">Completed</div></div>
+        <div class="stat-cell"><div class="num">05</div><div class="lbl">Languages</div></div>
+        <div class="stat-cell"><div class="num">∞</div><div class="lbl">To learn</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+<footer>
+  <span>[twil09] — twil09.com</span>
+  <span>Stack Zero · 25 builds</span>
+  <span>© 2026</span>
+</footer>
+
+<script>
+  document.querySelectorAll('.scroll-btn, .nav-links a').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      const href = this.getAttribute('href');
+      if (!href || !href.startsWith('#')) return;
+      e.preventDefault();
+      const targetId = href.slice(1);
+      const target = document.getElementById(targetId);
+      if (!target) return;
+
+      // Button press feedback
+      this.style.transition = 'opacity 0.1s, transform 0.1s';
+      this.style.opacity = '1';
+      this.style.transform = 'scale(0.94)';
+      setTimeout(() => {
+        this.style.transform = 'scale(1)';
+        this.style.opacity = '';
+      }, 150);
+
+      // Smooth scroll
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      // Flash the section after scroll lands
+      setTimeout(() => {
+        target.classList.remove('section-flash');
+        void target.offsetWidth;
+        target.classList.add('section-flash');
+        setTimeout(() => target.classList.remove('section-flash'), 900);
+      }, 600);
+    });
+  });
+</script>
+
+</body>
+</html>
